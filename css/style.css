@@ -46,3 +46,7 @@ footer > h4 {
 #grid .cell.clicked {
   background-color: aqua;
 }
+
+#grid .cell.bomb {
+  background-color: red;
+}

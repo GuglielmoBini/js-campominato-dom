@@ -67,6 +67,7 @@ const getUniqueRandomNumberArray = (min, max, quantity) => {
 const playButton = document.getElementById("play-button");
 const grid = document.getElementById("grid");
 const playTitle = document.getElementById("play-title");
+const message = document.getElementById("message");
 
 //impostazioni iniziali
 
@@ -78,29 +79,48 @@ const totalCells = rows * cols;
 playButton.addEventListener("click", function () {
   // reset della griglia alla pressione del bottone
   grid.innerHTML = "";
-  //creo array per tenere traccia dei numeri cliccati dall'utente
-  const userNumbers = [];
+  // reset messaggio
+  message.innerHTML = "";
+
+  // aggiungo e rimuovo classi
+  grid.classList.add("align-content-start", "flex-wrap");
+  grid.classList.remove("justify-content-center", "align-items-center");
+  playTitle.classList.add("d-none");
+
+  // punteggio utente
+  let score = 0;
+
   //creo array per le caselle bomba
   const cpuNumbers = getUniqueRandomNumberArray(1, 100, 16);
-  console.log(cpuNumbers);
+  // calcolo numero per vincere la partita
+  const winner = totalCells - cpuNumbers.length;
 
   for (let i = 1; i <= totalCells; i++) {
     // creo una cella
     const cell = createCell(i);
     // applico event listener alla cella
     cell.addEventListener("click", function () {
-      cell.classList.toggle("clicked");
-      userNumbers.push(i);
-      console.log(userNumbers);
-      const cellsCounter = userNumbers.length;
-      console.log(cellsCounter);
+      // validazione
+      if (cpuNumbers.includes(i)) {
+        cell.classList.add("bomb");
+        alert(`HAI PRESO UNA BOMBA! HAI PERSO! il tuo punteggio è ${score}`);
+        grid.innerHTML = "";
+        message.innerHTML = `<h4 class="text-danger">Gioca di nuovo!</h4>`;
+      } else {
+        if (cell.classList.contains("clicked")) {
+          return false;
+        } else {
+          cell.classList.add("clicked");
+          score++;
+          if (score === winner) {
+            alert("COMPLIMENTI! HAI VINTO!");
+            grid.innerHTML = "";
+          }
+        }
+      }
     });
 
     // appendo la cella in pagina
     grid.appendChild(cell);
-    // aggiungo e rimuovo classi
-    grid.classList.add("align-content-start", "flex-wrap");
-    grid.classList.remove("justify-content-center", "align-items-center");
-    playTitle.classList.add("d-none");
   }
 });
