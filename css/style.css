@@ -1,0 +1,48 @@
+body {
+  background-color: #7fffd4;
+}
+
+header {
+  height: 100px;
+}
+
+footer {
+  height: 80px;
+}
+
+header,
+footer {
+  background-color: white;
+}
+
+footer > h4 {
+  line-height: 80px;
+  vertical-align: middle;
+}
+
+/* GRID */
+
+#grid {
+  width: 700px;
+  height: 700px;
+  margin: 0 auto;
+}
+
+#grid .lets-play {
+  font-size: 60px;
+}
+
+#grid .cell {
+  width: calc(100% / 10);
+  height: calc(100% / 10);
+  border: 2px solid black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+#grid .cell.clicked {
+  background-color: aqua;
+}
