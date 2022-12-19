@@ -43,11 +43,23 @@ Se avete finito tutti i bonus potete scrivere all'insegnante o ai tutor per rice
 //---------------------------------------------------------------------------------
 
 // FUNZIONI
+// funzione per creare le celle
 const createCell = (content) => {
   const cell = document.createElement("div");
   cell.append(content);
   cell.classList.add("cell");
   return cell;
+};
+//funzione per array numeri random
+const getUniqueRandomNumberArray = (min, max, quantity) => {
+  const randomNumbers = [];
+  while (randomNumbers.length < quantity) {
+    const randomNum = Math.floor(Math.random() * max - min + 1) + min;
+    if (!randomNumbers.includes(randomNum)) {
+      randomNumbers.push(randomNum);
+    }
+  }
+  return randomNumbers;
 };
 
 // raccolgo gli elementi dal DOM
@@ -66,15 +78,24 @@ const totalCells = rows * cols;
 playButton.addEventListener("click", function () {
   // reset della griglia alla pressione del bottone
   grid.innerHTML = "";
+  //creo array per tenere traccia dei numeri cliccati dall'utente
+  const userNumbers = [];
+  //creo array per le caselle bomba
+  const cpuNumbers = getUniqueRandomNumberArray(1, 100, 16);
+  console.log(cpuNumbers);
+
   for (let i = 1; i <= totalCells; i++) {
     // creo una cella
     const cell = createCell(i);
     // applico event listener alla cella
     cell.addEventListener("click", function () {
       cell.classList.toggle("clicked");
-      // restituisco in console il numero della cella che ho cliccato
-      console.log("Hai cliccato:" + " " + i);
+      userNumbers.push(i);
+      console.log(userNumbers);
+      const cellsCounter = userNumbers.length;
+      console.log(cellsCounter);
     });
+
     // appendo la cella in pagina
     grid.appendChild(cell);
     // aggiungo e rimuovo classi
